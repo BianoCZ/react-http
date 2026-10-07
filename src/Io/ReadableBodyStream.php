@@ -8,6 +8,8 @@ use React\Stream\ReadableStreamInterface;
 use React\Stream\Util;
 use React\Stream\WritableStreamInterface;
 
+$reflectedMethod = new \ReflectionMethod('\Psr\Http\Message\StreamInterface','eof');
+if (!(PHP_VERSION_ID >= 70000 && $reflectedMethod->hasReturnType())) {
 /**
  * @internal
  */
@@ -149,5 +151,10 @@ class ReadableBodyStream extends EventEmitter implements ReadableStreamInterface
         }
 
         $this->close();
+    }
+}
+} else {
+    class ReadableBodyStream extends V2\ReadableBodyStream
+    {
     }
 }

@@ -4,6 +4,8 @@ namespace React\Http\Io;
 
 use Psr\Http\Message\StreamInterface;
 
+$reflectedMethod = new \ReflectionMethod('\Psr\Http\Message\StreamInterface','eof');
+if (!(PHP_VERSION_ID >= 70000 && $reflectedMethod->hasReturnType())) {
 /**
  * [Internal] PSR-7 message body implementation using an in-memory buffer
  *
@@ -175,5 +177,10 @@ class BufferedBody implements StreamInterface
     public function getMetadata($key = null)
     {
         return $key === null ? array() : null;
+    }
+}
+} else {
+    class BufferedBody extends V2\BufferedBody
+    {
     }
 }

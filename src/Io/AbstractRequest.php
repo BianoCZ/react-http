@@ -7,6 +7,8 @@ use Psr\Http\Message\StreamInterface;
 use Psr\Http\Message\UriInterface;
 use React\Http\Message\Uri;
 
+$reflectedMethod = new \ReflectionMethod('\Psr\Http\Message\RequestInterface','withRequestTarget');
+if (!(PHP_VERSION_ID >= 70000 && $reflectedMethod->hasReturnType())) {
 /**
  * [Internal] Abstract HTTP request base class (PSR-7)
  *
@@ -152,5 +154,10 @@ abstract class AbstractRequest extends AbstractMessage implements RequestInterfa
         }
 
         return $request;
+    }
+}
+} else {
+    abstract class AbstractRequest extends V2\AbstractRequest
+    {
     }
 }
